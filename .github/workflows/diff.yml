@@ -30,6 +30,7 @@ jobs:
         # To edit the second and third line for another ontology, test the robot code locally, and edit accordingly.
         # For example, FYPO does not need an extra --right-catalog but other ontologies may need it
         # See https://github.com/obophenotype/cell-ontology/blob/master/.github/workflows/diff.yml
+        shell: bash
         run: >
           export ROBOT_JAVA_ARGS=-Xmx6G;
           function robot_diff { robot diff --labels True --left ../OEO-master/$1 --right $1 -f markdown; };
