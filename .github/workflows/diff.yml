@@ -34,6 +34,7 @@ jobs:
         # See https://github.com/obophenotype/cell-ontology/blob/master/.github/workflows/diff.yml
         shell: bash
         run: >
+          echo $PWD;
           export ROBOT_JAVA_ARGS=-Xmx6G;
           function robot_diff { robot diff --labels True --left ./dev/$1 --right $1 -f markdown; };
           export -f robot_diff;
