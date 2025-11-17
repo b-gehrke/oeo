@@ -32,6 +32,8 @@ jobs:
         # See https://github.com/obophenotype/cell-ontology/blob/master/.github/workflows/diff.yml
         run: >
           export ROBOT_JAVA_ARGS=-Xmx6G;
+          function robot_diff { robot diff --labels True --left ../OEO-master/$1 --right $1 -f markdown; }
+          export -f robot_diff
           find src \( -name "*.omn" -o -name "*.owl" \) -exec bash -c 'robot_diff $0 > $0.changes.md' {} \;
 #          robot diff --labels True --left master/src/ontology/fypo-edit.owl --right src/ontology/fypo-edit.owl -f markdown -o edit-diff.md;
 #          robot --catalog src/ontology/catalog-v001.xml report -i src/ontology/oeo.omn -l true  --fail-on None --base-iri ttps://openenergyplatform.org/ontology/oeo/ --print 5 -o errors.tsv;
