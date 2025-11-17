@@ -22,7 +22,7 @@ jobs:
         with:
           ref: dev
           path: dev
-#      - name: Run robot diff
+      - name: Run robot diff
         # -Xmx6G extension is to set 6gb of memory for java virtual machine
         # The second line produces the difference in the edit files only
         # The third line produces the difference after reasoner. I still have to figure what the best file for this is.
