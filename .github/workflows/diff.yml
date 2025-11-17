@@ -37,7 +37,7 @@ jobs:
           export -f robot_diff;
           git config --global --add safe.directory $PWD;
           git fetch origin ${{ github.base_ref }};
-          git diff --name-only origin/dev | grep -E "src/.*(omn|owl)" | xargs -I% bash -c 'robot_diff % > %.changed.md';
+          git diff --name-only origin/dev | grep -E "src/.*(omn|owl)" | xargs -I% bash -c 'robot_diff % > %.changes.md';
 #          gh pr diff 2 --name-only | xargs -I% bash -c 'robot_diff % > %.changed.md';
 #          find src \( -name "*.omn" -o -name "*.owl" \) -exec bash -c 'robot_diff $0 > $0.changes.md' {} \;
 
