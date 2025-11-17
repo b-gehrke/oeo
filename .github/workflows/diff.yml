@@ -38,7 +38,6 @@ jobs:
           git config --global --add safe.directory $PWD;
           git fetch origin ${{ github.base_ref }};
           git diff --name-only origin/dev | grep -E "src/.*(omn|owl)" | xargs -I% bash -c 'robot_diff % > %.changed.md';
-          find . -name "*.changed.md" -exec bash -c 'printf "$0\n\n" && cat $0' {} \;
 #          gh pr diff 2 --name-only | xargs -I% bash -c 'robot_diff % > %.changed.md';
 #          find src \( -name "*.omn" -o -name "*.owl" \) -exec bash -c 'robot_diff $0 > $0.changes.md' {} \;
 
@@ -48,9 +47,10 @@ jobs:
         # Create a comment where the diffs can be folded, so it does not take so much space
         # add this eventually: cat reasoned-diff.md >> comment.md;
         run: >
-            export ROBOT_JAVA_ARGS=-Xmx6G;
             find . -name "*.changes.md" -exec bash -c \
-              'printf "<details><summary>%s: %s changes</summary>\n\n%s\n</details>\n\n" $(basename $0 ".changes.md") $(grep -E "^- \[" $0 | wc -l) "$(cat $0)" | sed "s/^#/##/"' {} \; > comment.md
+              'printf "<details><summary>%s: %s changes</summary>\n\n%s\n</details>\n\n" $(basename $0 ".changes.md") $(grep -E "^- \[" $0 | wc -l) "$(cat $0)" | sed "s/^#/##/"' {} \; > comment.md;
+            realpath comment.md;
+            cat comment.md;
 #            printf "# Errors reported\n\n" >> comment.md;
 #            printf "\`\`\`\n" >> comment.md;
 #            cat errors.tsv >> comment.md;
