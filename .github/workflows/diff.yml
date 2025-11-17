@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: >
           export ROBOT_JAVA_ARGS=-Xmx6G;
-          function robot_diff { robot diff --labels True --left ../OEO-master/$1 --right $1 -f markdown; };
+          function robot_diff { robot diff --labels True --left ./dev/$1 --right $1 -f markdown; };
           export -f robot_diff;
           find src \( -name "*.omn" -o -name "*.owl" \) -exec bash -c 'robot_diff $0 > $0.changes.md' {} \;
 #          robot diff --labels True --left master/src/ontology/fypo-edit.owl --right src/ontology/fypo-edit.owl -f markdown -o edit-diff.md;
