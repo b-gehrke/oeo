@@ -35,6 +35,7 @@ jobs:
         shell: bash
         run: >
           echo $PWD;
+          find .;
           export ROBOT_JAVA_ARGS=-Xmx6G;
           function robot_diff { robot diff --labels True --left ./dev/$1 --right $1 -f markdown; };
           export -f robot_diff;
