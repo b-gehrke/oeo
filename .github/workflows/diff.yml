@@ -39,12 +39,13 @@ jobs:
           CHANGES=($(git diff --name-only origin/dev | grep -E "src/.*(omn|owl)"))
           for c in ${CHANGES[@]}; do
             # Drop term tracker annotations
-            robot remove --select complement --drop-axiom-annotations https://openenergyplatform.org/ontology/oeo/OEO_00020426 --input $c --output $c
-            robot remove --select complement --drop-axiom-annotations https://openenergyplatform.org/ontology/oeo/OEO_00020426 --input dev/$c --output dev/$c
+            robot remove --select complement --drop-axiom-annotations https://openenergyplatform.org/ontology/oeo/OEO_00020426 --input $c \
+                  remove --term https://openenergyplatform.org/ontology/oeo/OEO_00020426 --output $c
+            robot remove --select complement --drop-axiom-annotations https://openenergyplatform.org/ontology/oeo/OEO_00020426 --input dev/$c \
+                  remove --term https://openenergyplatform.org/ontology/oeo/OEO_00020426 --output dev/$c
 
             # Get diff
             robot diff --labels True --left ./dev/$c --right $c -f markdown > $c.changes.md
-            cat $c.changes.md
           done
       - name: Format comment
         # Create a comment where the diffs can be folded, so it does not take so much space
