@@ -32,17 +32,17 @@ jobs:
         shell: bash
         run: |
           export ROBOT_JAVA_ARGS=-Xmx6G
-          function process-file {
-            # Drop term tracker annotations
-            robot remove --select complement --drop-axiom-annotations http://purl.obolibrary.org/obo/IAO_0000118 --input $1 --output $1
-            robot remove --select complement --drop-axiom-annotations http://purl.obolibrary.org/obo/IAO_0000118 --input dev/$1 --output dev/$1
-            robot diff --labels True --left ./dev/% --right % -f markdown
-          }
-          export -f process-file
           git config --global --add safe.directory $PWD
           git fetch origin ${{ github.base_ref }}
-          git diff --name-only origin/dev | grep -E "src/.*(omn|owl)" \
-            | xargs -I% bash -c 'process-file % > %.changes.md'
+          CHANGES=($(git diff --name-only origin/dev | grep -E "src/.*(omn|owl)"))
+          for c in ${CHANGES[@]}; do
+            # Drop term tracker annotations
+            robot remove --select complement --drop-axiom-annotations http://purl.obolibrary.org/obo/IAO_0000118 --input $c --output $c
+            robot remove --select complement --drop-axiom-annotations http://purl.obolibrary.org/obo/IAO_0000118 --input dev/$c --output dev/$c
+
+            # Get diff
+            robot diff --labels True --left ./dev/$c --right $c -f markdown >  $c.changes.md
+          done
       - name: Format comment
         # Create a comment where the diffs can be folded, so it does not take so much space
         # Finds all previously created .changes.md files and embeds them in collapsible sections
