@@ -31,6 +31,7 @@ jobs:
         # The last line fetches all changed .omn and .owl files in src/ collects the changes in respective .changes.md files
         shell: bash
         run: |
+          set +x
           export ROBOT_JAVA_ARGS=-Xmx6G
           git config --global --add safe.directory $PWD
           git fetch origin ${{ github.base_ref }}
