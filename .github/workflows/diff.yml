@@ -32,6 +32,7 @@ jobs:
         shell: bash
         run: |
           set -x
+          robot --version
           export ROBOT_JAVA_ARGS=-Xmx6G
           git config --global --add safe.directory $PWD
           git fetch origin ${{ github.base_ref }}
