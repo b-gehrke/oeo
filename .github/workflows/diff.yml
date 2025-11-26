@@ -49,12 +49,13 @@ jobs:
       - name: Format comment
         # Create a comment where the diffs can be folded, so it does not take so much space
         # Finds all previously created .changes.md files and embeds them in collapsible sections
-        run: >
+        run: |
             printf "# Changed axioms per ontology\n\n _**Note**: Changes in term tracker annotations are not displayed_\n\n" > comment.md
+            find . -name "*.changes.md"
             find . -name "*.changes.md" -exec bash -c \
-              'printf "<details><summary>%s: %s changes</summary>\n\n%s\n</details>\n\n" $(basename $0 ".changes.md") $(grep -E "^- \[" $0 | wc -l) "$(cat $0)"' {} \; >> comment.md;
-            realpath comment.md;
-            cat comment.md;
+              'printf "<details><summary>%s: %s changes</summary>\n\n%s\n</details>\n\n" $(basename $0 ".changes.md") $(grep -E "^- \[" $0 | wc -l) "$(cat $0)"' {} \; >> comment.md
+            realpath comment.md
+            cat comment.md
 #            printf "# Errors reported\n\n" >> comment.md;
 #            printf "\`\`\`\n" >> comment.md;
 #            cat errors.tsv >> comment.md;
